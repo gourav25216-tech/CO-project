@@ -271,7 +271,7 @@ def main() :
                         print("Label not found:", label)
                         sys.exit()
 
-                    offset = (jump_addr - pc)//2
+                    offset = (jump_addr - pc)
 
                 if offset<0:
                     offset = (2**21) + offset
