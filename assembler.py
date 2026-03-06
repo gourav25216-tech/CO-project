@@ -51,6 +51,11 @@ j_type = [
 
 #u-type data
 
+u_type = [
+    ['lui','0110111'],
+    ['auipc','0010111']
+]
+
 def finder(register):
     for name, code in registers:
         if register == name:
@@ -184,7 +189,30 @@ def main() :
                 pc += 4
                 break
         
+       #u-type
+        for x in u_type:
+            if x[0] == function:
+                opcode = x[1]
+                found = True
+
+                rd = parts[1]
+                imm = int(parts[2])
+
+                if imm < 0:
+                    imm = (2**20) + imm
+
+                imm_bin = format(imm//4096, '020b')
+
+                final = imm_bin + finder(rd) + opcode
+
+                output.append(final)
+                pc += 4
+                break
+        
+        
+        
         #j-type
+        
         for x in j_type:
             if x[0] == function:
                 opcode = x[1]
