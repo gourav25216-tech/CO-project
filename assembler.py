@@ -239,6 +239,10 @@ def main() :
                 rd = parts[1]
                 imm = int(parts[2])
 
+                if imm < 0 or imm > 1048575:
+                    print("immediate out of range for u-type")
+                    sys.exit()
+
                 if imm < 0:
                     imm = (2**20) + imm
 
