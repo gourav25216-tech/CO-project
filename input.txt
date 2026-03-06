@@ -1,2 +1,13 @@
+main:
+lui t0, 4096
+addi t0, t0, 8
+add t2, t1, t1
+sw t2, 4(t0)
+beq t1, t2, skip
+addi a0, zero, 1
+skip:
+jal ra, end
+addi a1, zero, 2
+end:
+addi a2, zero, 3
 
-u type
