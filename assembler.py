@@ -185,6 +185,10 @@ def main() :
                     sys.exit()
                     
                 offset = branch_addr - pc
+
+                if offset < -4096 or offset > 4094:
+                    print("Branch offset out of range")
+                    sys.exit()
                 
                 if offset<0:
                     offset = (2**13) + offset
