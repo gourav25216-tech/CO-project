@@ -159,17 +159,16 @@ def main() :
                 rs2 = parts[2]
                 label = parts[3]
 
-                branch_addr = 0
+                branch_addr = None
                 for name, addr in labels:
                     if name == label:
                         branch_addr = addr
                     
-                
-
-                offset = (branch_addr - pc) >> 1
-
-
-                
+                if branch_addr is None:
+                    print("Label not found:", label)
+                    sys.exit()
+                    
+                offset = branch_addr - pc
                 
                 if offset<0:
                     offset = (2**13) + offset
@@ -194,6 +193,7 @@ def main() :
 
                 if label.lstrip('-').isdigit():
                     offset = int(label) 
+                    
                 else:
                     jump_addr = None
                     for name, addr in labels:
@@ -203,7 +203,7 @@ def main() :
                         print("Label not found:", label)
                         sys.exit()
 
-                    offset = (jump_addr - pc)
+                    offset = (jump_addr - pc)//2
 
                 if offset<0:
                     offset = (2**21) + offset
