@@ -43,6 +43,12 @@ b_type = [
     ['bgeu','1100011','111']
 ]
 
+#j-type data
+
+j_type = [
+    ['jal','1101111']
+]
+
 def finder(register):
     for name, code in registers:
         if register == name:
@@ -51,8 +57,6 @@ def finder(register):
     sys.exit()
         
 
-
-            
 
 def main() :
     inputfile = sys.argv[1]
@@ -119,6 +123,7 @@ def main() :
                 break
 
         # i-type
+
         for x in i_type:
             if x[0] == function:
                 opcode = x[1]
@@ -143,7 +148,7 @@ def main() :
                 break
         
         #b-type
-        
+
         for x in b_type:
             if x[0] == function:
                 opcode = x[1]
