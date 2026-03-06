@@ -182,6 +182,40 @@ def main() :
                 output.append(final)
                 pc += 4
                 break
+        
+        #j-type
+        for x in j_type:
+            if x[0] == function:
+                opcode = x[1]
+                found = True
+
+                rd = parts[1]
+                label = parts[2]
+
+                if label.lstrip('-').isdigit():
+                    offset = int(label) 
+                else:
+                    jump_addr = None
+                    for name, addr in labels:
+                        if name == label:
+                            jump_addr = addr
+                    if jump_addr ==None:
+                        print("Label not found:", label)
+                        sys.exit()
+
+                    offset = (jump_addr - pc)
+
+                if offset<0:
+                    offset = (2**21) + offset
+
+                jump_imm = format(offset,'021b')
+
+                final = jump_imm[0] + jump_imm[10:20] + jump_imm[9] + jump_imm[1:9] + finder(rd) + opcode
+
+
+                output.append(final)
+                pc += 4
+                break
 
         if not found:
             print("Invalid instruction",function)
