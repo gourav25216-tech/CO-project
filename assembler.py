@@ -49,6 +49,8 @@ j_type = [
     ['jal','1101111']
 ]
 
+#u-type data
+
 def finder(register):
     for name, code in registers:
         if register == name:
