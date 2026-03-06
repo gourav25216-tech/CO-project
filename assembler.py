@@ -150,6 +150,9 @@ def main() :
                     rd = parts[1]
                     rs1 = parts[2]
                     imm = int(parts[3])
+                if imm < -2048 or imm > 2047:
+                    print("Immediate out of range for I-type")
+                    sys.exit()
                 if imm <0 :
                     final = format((2**12)+imm,'012b') +finder(rs1) + fun3 + finder(rd) + opcode
                 else :
