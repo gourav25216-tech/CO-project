@@ -49,6 +49,12 @@ j_type = [
     ['jal','1101111']
 ]
 
+#s-type data
+
+s_type = [
+     ['sw','0100011','010']
+]
+
 #u-type data
 
 u_type = [
@@ -188,7 +194,39 @@ def main() :
                 output.append(final)
                 pc += 4
                 break
-        
+
+
+
+        # s-type 
+        for x in s_type:
+            if x[0] == function:
+                opcode = x[1]
+                fun3 = x[2]
+                found = True
+
+                rs2 = parts[1]
+                imm = int(parts[2])
+                rs1 = parts[3]
+
+                if imm < -2048 or imm > 2047:
+                    print("The Immediate is out of the representable range.")
+                    exit()
+
+                if imm < 0:
+                    imm = (2**12) + imm
+
+                imm_bin = format(imm, '012b')
+                imm_high = imm_bin[0:7]
+                imm_low = imm_bin[7:12]
+
+                final = imm_high + finder(rs2) + finder(rs1) + fun3 + imm_low + opcode 
+                output.append(final)
+                
+                pc += 4
+                break
+
+
+
        #u-type
         for x in u_type:
             if x[0] == function:
