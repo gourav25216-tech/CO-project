@@ -117,6 +117,7 @@ def main() :
 
 
                 break
+
         # i-type
         for x in i_type:
             if x[0] == function:
@@ -141,6 +142,41 @@ def main() :
                 pc += 4
                 break
         
+        #b-type
+        
+        for x in b_type:
+            if x[0] == function:
+                opcode = x[1]
+                fun3 = x[2]
+                found = True
+
+                rs1 = parts[1]
+                rs2 = parts[2]
+                label = parts[3]
+
+                branch_addr = 0
+                for name, addr in labels:
+                    if name == label:
+                        branch_addr = addr
+                    
+                
+
+                offset = (branch_addr - pc) >> 1
+
+
+                
+                
+                if offset<0:
+                    offset = (2**13) + offset
+                
+                branch_imm = format(offset, '013b')
+
+
+                final = branch_imm[0] + branch_imm[2:8] + finder(rs2) + finder(rs1) + fun3 + branch_imm[8:12] + branch_imm[1] + opcode
+
+                output.append(final)
+                pc += 4
+                break
 
         if not found:
             print("Invalid instruction",function)
