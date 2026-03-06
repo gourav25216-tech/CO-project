@@ -24,6 +24,13 @@ r_type = [
     ['or','0110011','110','0000000'],
     ['and','0110011','111','0000000']
 ]
+i_type = [
+    ['addi','0010011','000'],
+    ['lw','0000011','010'],
+    ['jalr','1100111','000'],
+    ['sltiu','0010011','011']
+]
+
 
 def finder(register):
     for name, code in registers:
@@ -99,6 +106,30 @@ def main() :
 
 
                 break
+        # i-type
+        for x in i_type:
+            if x[0] == function:
+                opcode = x[1]
+                fun3 = x[2]
+                found = True
+                if function == 'lw':
+                    rd = parts[1]
+                    imm = int(parts[2])
+                    rs1 = parts[3]
+                else :
+                    rd = parts[1]
+                    rs1 = parts[2]
+                    imm = int(parts[3])
+                if imm <0 :
+                    final = format((2**12)+imm,'012b') +finder(rs1) + fun3 + finder(rd) + opcode
+                else :
+                    final = format(imm,'012b') +finder(rs1) + fun3 + finder(rd) + opcode
+                
+                
+                output.append(final)
+                pc += 4
+                break
+        
 
         if not found:
             print("Invalid instruction",function)
