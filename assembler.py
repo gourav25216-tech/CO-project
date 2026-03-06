@@ -25,4 +25,93 @@ r_type = [
     ['and','0110011','111','0000000']
 ]
 
-# u-type data
+def finder(register):
+    for name, code in registers:
+        if register == name:
+            return code
+    print(f"Invalid register: {register}")
+    sys.exit()
+        
+
+
+            
+
+def main() :
+    inputfile = sys.argv[1]
+    outputfile = sys.argv[2]
+
+    lines = []
+    f = open(inputfile)
+    
+
+    for line in f:
+        line = line.strip()
+        if line!= '' :
+            lines.append(line)
+
+    labels = []
+    pc = 0
+    
+    for i in range(len(lines)):
+        line = lines[i]
+        if ":" in line:
+            label = line.split(":")[0]
+            labels.append((label,pc))
+            
+            lines[i] = line.split(":")[1].strip()
+        if lines[i]!='':
+            pc += 4
+    
+
+    pc = 0
+    output = []
+
+    for i in range(len(lines)):
+        line = lines[i]
+        if line =="":
+            continue
+
+        clean = line              
+        clean = clean.replace(",", " ")
+        clean = clean.replace("(", " ")
+        clean = clean.replace(")", " ")
+
+        parts = clean.split()
+        function = parts[0]
+
+        found = False
+
+        # r-type
+
+        for x in r_type:
+            if x[0] == function:        
+                opcode = x[1]
+                fun3   = x[2]
+                fun7   = x[3]
+                found = True
+                rd = parts[1]
+                rs1 = parts[2]
+                rs2 = parts[3]
+
+                final = fun7 + finder(rs2) + finder(rs1) + fun3 + finder(rd) + opcode
+                output.append(final)
+                pc +=4
+
+
+                break
+
+        if not found:
+            print("Invalid instruction",function)
+            continue
+        
+
+    # print(output)
+    with open(outputfile, "w") as f:
+        f.write("\n".join(output))
+
+if __name__ == "__main__":
+    main()
+   
+
+
+
