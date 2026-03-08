@@ -189,6 +189,8 @@ def main() :
                 if offset < -4096 or offset > 4094:
                     print("Branch offset out of range")
                     sys.exit()
+
+                offset = offset//2
                 
                 if offset<0:
                     offset = (2**13) + offset
@@ -243,14 +245,14 @@ def main() :
                 rd = parts[1]
                 imm = int(parts[2])
 
-                if imm < 0 or imm > 1048575:
+                if imm < -524288 or imm > 524288:
                     print("immediate out of range for u-type")
                     sys.exit()
 
                 if imm < 0:
                     imm = (2**20) + imm
 
-                imm_bin = format(imm//4096, '020b')
+                imm_bin = format(imm, '020b')
 
                 final = imm_bin + finder(rd) + opcode
 
