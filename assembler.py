@@ -193,9 +193,9 @@ def main() :
                 offset = offset//2
                 
                 if offset<0:
-                    offset = (2**13) + offset
+                    offset = (2**12) + offset
                 
-                branch_imm = format(offset, '013b')
+                branch_imm = format(offset, '012b')
 
 
                 final = branch_imm[0] + branch_imm[2:8] + finder(rs2) + finder(rs1) + fun3 + branch_imm[8:12] + branch_imm[1] + opcode
@@ -245,7 +245,7 @@ def main() :
                 rd = parts[1]
                 imm = int(parts[2])
 
-                if imm < -524288 or imm > 524288:
+                if imm < -524288 or imm > 524287:
                     print("immediate out of range for u-type")
                     sys.exit()
 
@@ -284,7 +284,7 @@ def main() :
                         print("Label not found:", label)
                         sys.exit()
 
-                    offset = (jump_addr - pc)
+                    offset = (jump_addr - pc)//2
 
                 if offset<0:
                     offset = (2**21) + offset
