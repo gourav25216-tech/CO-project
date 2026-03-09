@@ -190,12 +190,12 @@ def main() :
                     print("Branch offset out of range")
                     sys.exit()
 
-                offset = offset//2
+                
                 
                 if offset<0:
-                    offset = (2**12) + offset
+                    offset = (2**13) + offset
                 
-                branch_imm = format(offset, '012b')
+                branch_imm = format(offset, '013b')
 
 
                 final = branch_imm[0] + branch_imm[2:8] + finder(rs2) + finder(rs1) + fun3 + branch_imm[8:12] + branch_imm[1] + opcode
@@ -252,7 +252,7 @@ def main() :
                 if imm < 0:
                     imm = (2**20) + imm
 
-                imm_bin = format(imm, '020b')
+                imm_bin = format(imm//4096, '020b')
 
                 final = imm_bin + finder(rd) + opcode
 
@@ -284,7 +284,7 @@ def main() :
                         print("Label not found:", label)
                         sys.exit()
 
-                    offset = (jump_addr - pc)//2
+                    offset = (jump_addr - pc)
 
                 if offset<0:
                     offset = (2**21) + offset
