@@ -139,7 +139,48 @@ def execute(inst):
         address = reg[rs1] + imm
         store(address, reg[rs2])
         pc = pc + 4
-        
+
+    # B-type
+    elif opcode == "1100011":
+        imm = inst[0]+inst[24]+inst[1:7]+inst[20:24]+"0"
+        imm = binary_to_int(imm)
+        value1 = reg[rs1]
+        value2 = reg[rs2]
+
+        if funct3 == "000":
+            if value1 == value2:
+                pc=pc+imm
+            else:
+                pc= pc + 4
+
+        elif funct3 == "001":
+            if value1!= value2:
+                pc = pc + imm
+            else:
+                pc= pc + 4
+        elif funct3 == "100":   
+            if to_sign(value1)<to_sign(value2):
+                pc = pc + imm
+            else:
+                pc = pc + 4
+
+        elif funct3 == "101":   
+            if to_sign(value1)>=to_sign(value2):
+                pc = pc + imm
+            else:
+                pc = pc + 4
+
+        elif funct3 == "110":   
+            if check_32bits(value1)<check_32bits(value2):
+                pc = pc + imm
+            else:
+                pc = pc + 4
+
+        elif funct3 == "111":   
+            if check_32bits(value1)>=check_32bits(value2):
+                pc = pc + imm
+            else:
+                pc = pc + 4
 def trace():
     line ="0b" + int_to_binary(pc)
     for value in reg:
