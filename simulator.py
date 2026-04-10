@@ -119,11 +119,11 @@ def execute(inst):
             else:
                 result = 0
         elif funct3 == "011":
-            if if_32_bits(value1) < if_32_bits(imm):
+            if check_32bits(value1) < check_32bits(imm):
                 result = 1
             else:
                 result = 0
-        result = if_32_bits(result)
+        result = check_32bits(result)
         if rd != 0:
             reg[rd] = result
         pc = pc + 4
