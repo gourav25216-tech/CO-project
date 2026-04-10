@@ -40,44 +40,6 @@ def execute(inst):
     rs1 = int(inst[12:17], 2)
     rs2= int(inst[7:12], 2)
     rd  = int(inst[20:25], 2)
-    
-    # I-type
-    elif opcode == "0010011":
-        imm = binary_to_int(inst[0:12])
-        value1 = reg[rs1]
-        if funct3 == "000":
-            result = value1 + imm
-        elif funct3 == "010":
-            if to_sign(value1) < imm:
-                result = 1
-            else:
-                result = 0
-        elif funct3 == "011":
-            if if_32_bits(value1) < if_32_bits(imm):
-                result = 1
-            else:
-                result = 0
-        result = if_32_bits(result)
-        if rd != 0:
-            reg[rd] = result
-        pc = pc + 4
-    elif opcode == "0000011":
-        imm = binary_to_int(inst[0:12])
-        address = reg[rs1] + imm
-        value = load(address)
-        if rd != 0:
-            reg[rd] = value
-        pc = pc + 4
-    elif opcode == "1100111":
-        imm = binary_to_int(inst[0:12])
-
-        next_pc = reg[rs1] + imm
-        next_pc = next_pc - (next_pc % 2)
-
-        if rd != 0:
-            reg[rd] = pc + 4
-
-        pc = next_pc
 
     # R-type
     if opcode == "0110011":
@@ -116,6 +78,44 @@ def execute(inst):
             reg[rd] = result
 
         pc = pc + 4
+
+# I-type
+    elif opcode == "0010011":
+        imm = binary_to_int(inst[0:12])
+        value1 = reg[rs1]
+        if funct3 == "000":
+            result = value1 + imm
+        elif funct3 == "010":
+            if to_sign(value1) < imm:
+                result = 1
+            else:
+                result = 0
+        elif funct3 == "011":
+            if if_32_bits(value1) < if_32_bits(imm):
+                result = 1
+            else:
+                result = 0
+        result = if_32_bits(result)
+        if rd != 0:
+            reg[rd] = result
+        pc = pc + 4
+    elif opcode == "0000011":
+        imm = binary_to_int(inst[0:12])
+        address = reg[rs1] + imm
+        value = load(address)
+        if rd != 0:
+            reg[rd] = value
+        pc = pc + 4
+    elif opcode == "1100111":
+        imm = binary_to_int(inst[0:12])
+
+        next_pc = reg[rs1] + imm
+        next_pc = next_pc - (next_pc % 2)
+
+        if rd != 0:
+            reg[rd] = pc + 4
+
+        pc = next_pc
     
 def trace():
     line ="0b" + int_to_binary(pc)
