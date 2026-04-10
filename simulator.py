@@ -131,7 +131,15 @@ def execute(inst):
             reg[rd] = check_32bits(result)
         pc +=4
 
-    
+    # S-type
+    elif opcode == "0100011":
+        imm_part1 = inst[0:7]
+        imm_part2 = inst[20:25]
+        imm = binary_to_int(imm_part1 + imm_part2)
+        address = reg[rs1] + imm
+        store(address, reg[rs2])
+        pc = pc + 4
+        
 def trace():
     line ="0b" + int_to_binary(pc)
     for value in reg:
