@@ -31,6 +31,34 @@ def to_sign(y):
         return y - (2 ** 32)
     else:
         return y
+def load(address):
+    if address % 4 != 0:
+        print("unaligned memory")
+        exit()
+    index = (address - BASE) // 4
+    if index < 0:
+        print("memory goes in negative")
+        exit()
+    if index >= len(memory):
+        print("limit exceed")
+        exit()
+
+    return memory[index]
+
+def store(address, value):
+    if address % 4 != 0:
+        print("unaligned memory")
+        exit()
+    index = (address - BASE) // 4
+    if index < 0:
+        print("memory goes in negative")
+        exit()
+    if index >= len(memory):
+        print("limit exceed")
+        exit()
+    value = check_32bits(value)
+    memory[index] = value
+
     
 def execute(inst):
     global pc
