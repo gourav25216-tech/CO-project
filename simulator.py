@@ -14,7 +14,14 @@ def binary_to_int(binary):
         return value
     else:
         return int(binary,2)
-        
+
+def check_32bits(y):
+    while y>=2**32:
+        y = y-(2**32)
+    while y<0:
+        y = y+(2**32)
+    return y
+    
 def trace():
     line ="0b" + int_to_binary(pc)
     for value in reg:
