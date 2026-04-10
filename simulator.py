@@ -5,6 +5,16 @@ memory = [0]*32
 BASE = 2**16  
 HALT= "00000000000000000000000001100011"
 
+def binary_to_int(binary):
+    if binary[0]=='1':
+        value = int(binary,2)
+        total_bits = len(binary)
+        max_value = 2**total_bits
+        value = value-max_value
+        return value
+    else:
+        return int(binary,2)
+        
 def trace():
     line ="0b" + int_to_binary(pc)
     for value in reg:
