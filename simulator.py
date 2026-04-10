@@ -177,9 +177,6 @@ def main():
 
 
     output.append(dump_memory())
-    for line in output:
-        print(line)
     
-
 if __name__ == "__main__":
     main()
