@@ -21,6 +21,16 @@ def check_32bits(y):
     while y<0:
         y = y+(2**32)
     return y
+
+def int_to_binary(x):
+    x = check_32bits(x)
+    return format(x, '032b')
+
+def to_sign(y):
+    if y >= 2 ** 31:
+        return y - (2 ** 32)
+    else:
+        return y
     
 def execute(inst):
     global pc
