@@ -116,6 +116,21 @@ def execute(inst):
             reg[rd] = pc + 4
 
         pc = next_pc
+    # U TYPE
+    elif opcode == "0110111":
+        imm = int(inst[0:20],2)
+        imm =imm *(2**12)
+        if rd != 0:
+            reg[rd] = check_32bits(imm)
+        pc += 4
+    elif opcode == "0010111":
+        imm = int(inst[0:20],2)
+        imm = imm * (2**12)
+        result = pc + to_sign(imm)
+        if rd != 0:
+            reg[rd] = check_32bits(result)
+        pc +=4
+
     
 def trace():
     line ="0b" + int_to_binary(pc)
