@@ -79,7 +79,7 @@ def execute(inst):
 
         pc = pc + 4
 
-# I-type
+    # I-type
     elif opcode == "0010011":
         imm = binary_to_int(inst[0:12])
         value1 = reg[rs1]
@@ -181,6 +181,20 @@ def execute(inst):
                 pc = pc + imm
             else:
                 pc = pc + 4
+
+    # J-type 
+    elif opcode == "1101111":
+        imm = inst[0] + inst[12:20] + inst[11] + inst[1:11] + "0"
+        imm = binary_to_int(imm)
+        if rd != 0:
+            reg[rd] = pc + 4
+        pc = pc + imm
+    else:
+        print("unknown inst")
+        exit()
+
+    reg[0] = 0
+    
 def trace():
     line ="0b" + int_to_binary(pc)
     for value in reg:
