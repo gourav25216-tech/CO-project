@@ -22,6 +22,53 @@ def check_32bits(y):
         y = y+(2**32)
     return y
     
+def execute(inst):
+    global pc
+    opcode= inst[25:32]
+    funct3 = inst[17:20]
+    funct7= inst[0:7]
+    rs1 = int(inst[12:17], 2)
+    rs2= int(inst[7:12], 2)
+    rd  = int(inst[20:25], 2)
+
+    # R-type
+    if opcode == "0110011":
+        value1= reg[rs1]
+        value2 = reg[rs2]
+
+        if funct3 == "000":
+            if funct7 == "0000000":
+                result = value1+ value2
+            else:
+                result = value1 -value2
+        elif funct3 == "111":
+            result = value1 & value2
+        elif funct3== "110":
+            result= value1 | value2
+        elif funct3 == "100":
+            result = value1 ^ value2
+        elif funct3== "001":
+            shift = value2 % 32
+            result= value1 << shift
+        elif funct3 == "101":
+            shift = value2 % 32
+            result= (value1 % (2 ** 32)) >> shift
+        elif funct3 == "010":
+            if to_sign(value1) < to_sign(value2):
+                result = 1
+            else:
+                result = 0
+        elif funct3 == "011":
+            if check_32bits(value1) < check_32bits(value2):
+                result= 1
+            else:
+                result = 0
+        result = check_32bits(result)
+        if rd != 0:
+            reg[rd] = result
+
+        pc = pc + 4
+    
 def trace():
     line ="0b" + int_to_binary(pc)
     for value in reg:
